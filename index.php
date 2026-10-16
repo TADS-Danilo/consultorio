@@ -1,8 +1,23 @@
 <?php
 include("menu_externo.php");
+include("funcoes.php");
 
-if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Enviar') {
-    echo("<script>alert('Função será implementada na próxima versão');</script>");
+if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Entrar') {
+    $conexao = abre_conexao();
+
+    $login = $_POST['login'].trim();
+    $senha = md5($_POST['senha']);
+
+    $sql = "SELECT * FROM usuario WHERE login = '".$login."' AND senha = '".$senha."'";
+    $rs = mysqli_query($conexao, $sql);
+    if(mysqli_num_rows($rs) > 0) {
+        $linha = mysqli_fetch_array($rs);
+        session_start();
+        $_SESSION['login'] = $linha['login'];
+        $_SESSION['nome'] = $linha['nome'];
+        echo '<script type="text/javascript">window.location.href="inicio.php";</script>';
+        exit();
+    }
 }
 
 echo("  <div class='consultorio-page'>
