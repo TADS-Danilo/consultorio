@@ -17,6 +17,8 @@ if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Entrar') {
         $_SESSION['nome'] = $linha['nome'];
         echo '<script type="text/javascript">window.location.href="inicio.php";</script>';
         exit();
+    } else {
+        echo("<div class='alert alert-danger'>Login e/ou Senha inválidos</div>");
     }
 }
 

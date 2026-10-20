@@ -1,4 +1,12 @@
 <?php
+session_start();
+if(!isset($_SESSION['login'])) {
+    header("Location: sem_autorizacao.php");
+    exit();
+}
+
+include_once("funcoes.php");
+
 header('Content-Type: text/html; charset=utf-8');
 
 echo('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">');
@@ -46,16 +54,19 @@ echo("      <nav class='navbar sticky-top navbar-expand-lg navbar-consultorio-az
                                     <a class='nav-link' href='agenda.php' >Agenda</a>
                                 </li>
                                 <li class='nav-item dropdown'>
-                                    <a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                                    <a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
                                         Relatórios
                                     </a>
                                     <div class='dropdown-menu bg-consultorio-azul' aria-labelledby='navbarDropdown'>
-                                       <a class='nav-link' href='relatorio_agendamento.php' >Relatório de agendamentos</a>
-                                       <a class='nav-link' href='relatorio_paciente_aniversariante.php' >Relatório de pacientes aniversariantes</a>
+                                       <a class='dropdown-item' href='relatorio_agendamento.php' >Relatório de agendamentos</a>
+                                       <a class='dropdown-item' href='relatorio_paciente_aniversariante.php' >Relatório de pacientes aniversariantes</a>
                                     </div>
                                 </li>
                             </ul>
-                            <a class='nav-link logout-consultorio-azul' href='encerrar.php'>Encerrar sessão</a>
+                            <div class='ms-auto d-flex gap-3'>
+                                <a class='nav-link logout-consultorio-azul' href='alterar_senha.php'>Alterar senha</a>
+                                <a class='nav-link logout-consultorio-azul' href='encerrar.php'>Encerrar sessão</a>
+                            </div>
                         </div>
                     </div>
                 </div>

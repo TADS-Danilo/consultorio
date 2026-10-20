@@ -25,6 +25,31 @@
   color: #fff;
 }
 
+/* Fundo do menu suspenso Relatórios */
+.navbar-consultorio-azul .dropdown-menu {
+    background-color: #006699;
+    border: none;
+}
+
+/* Cor dos itens do menu suspenso */
+.navbar-consultorio-azul .dropdown-menu .dropdown-item {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* Cor dos itens ao passar o mouse ou receber foco */
+.navbar-consultorio-azul .dropdown-menu .dropdown-item:hover,
+.navbar-consultorio-azul .dropdown-menu .dropdown-item:focus {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Destaque para o item selecionado */
+.navbar-consultorio-azul .dropdown-menu .dropdown-item.active,
+.navbar-consultorio-azul .dropdown-menu .dropdown-item:active {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
 .navbar-consultorio-azul .navbar-toggler {
   color: rgba(255, 255, 255, 0.5);
   border-color: rgba(255, 255, 255, 0.1);
@@ -181,3 +206,10 @@ h3.bg-consultorio-azul, h4.bg-consultorio-azul, h5.bg-consultorio-azul {
 .col-sm-3-5, .col-sm-3-25, .col-sm-2-75, .col-sm-2-5, .col-sm-2-25,
 .col-sm-1-75, .col-sm-1-5, .col-sm-1-25, .col-sm-0-75, .col-sm-0-5,
 .col-sm-0-25, .col-sm-0-125{position: relative; width: 100%; padding-right: 15px; padding-left: 15px;}
+
+select.form-control {
+    appearance: auto;
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    cursor: pointer;
+}
