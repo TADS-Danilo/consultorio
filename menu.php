@@ -47,20 +47,17 @@ echo("      <nav class='navbar sticky-top navbar-expand-lg navbar-consultorio-az
                                 <li class='nav-item'>
                                     <a class='nav-link' href='usuarios.php' >Usuários do sistema</a>
                                 </li>
-                                <li class='nav-item'>
-                                    <a class='nav-link' href='pacientes.php' >Pacientes</a>
+                                <li class='nav-item dropdown'>
+                                    <a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                                        Pacientes
+                                    </a>
+                                    <div class='dropdown-menu bg-consultorio-azul' aria-labelledby='navbarDropdown'>
+                                       <a class='dropdown-item' href='pacientes.php' >Pacientes</a>
+                                       <a class='dropdown-item' href='relatorio_paciente_aniversariante.php' >Relatório de aniversariantes</a>
+                                    </div>
                                 </li>
                                 <li class='nav-item'>
                                     <a class='nav-link' href='agenda.php' >Agenda</a>
-                                </li>
-                                <li class='nav-item dropdown'>
-                                    <a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                        Relatórios
-                                    </a>
-                                    <div class='dropdown-menu bg-consultorio-azul' aria-labelledby='navbarDropdown'>
-                                       <a class='dropdown-item' href='relatorio_agendamento.php' >Relatório de agendamentos</a>
-                                       <a class='dropdown-item' href='relatorio_paciente_aniversariante.php' >Relatório de pacientes aniversariantes</a>
-                                    </div>
                                 </li>
                             </ul>
                             <div class='ms-auto d-flex gap-3'>

@@ -78,14 +78,14 @@ echo("              <center>
 
                     <div class='form-group row'>
                         <div class='col-sm-4'></div>
-                        <label class='col-sm-0-5 col-form-label'>Nome</label>
+                        <label class='col-sm-0-5 col-form-label'><font color='red'>*</font>Nome</label>
                         <div class='col-sm-3-5'>
-                            <input type='text' class='form-control' name='nome' />
+                            <input type='text' class='form-control' name='nome' required />
                         </div>
                     </div>
                     <div class='form-group row'>
                         <div class='col-sm-4'></div>
-                        <label class='col-sm-0-5 col-form-label'>Perfil</label>
+                        <label class='col-sm-0-5 col-form-label'><font color='red'>*</font>Perfil</label>
                         <div class='col-sm-3-5'>
                             <select size='1' class='form-control' name='perfil' required >
                                 <option></option>
@@ -96,16 +96,16 @@ echo("              <center>
                     </div>
                     <div class='form-group row'>
                         <div class='col-sm-4'></div>
-                        <label class='col-sm-0-5 col-form-label'>Email</label>
+                        <label class='col-sm-0-5 col-form-label'><font color='red'>*</font>Email</label>
                         <div class='col-sm-3-5'>
-                            <input type='text' class='form-control' name='email' />
+                            <input type='text' class='form-control' name='email' required/>
                         </div>
                     </div>
                     <div class='form-group row'>
                         <div class='col-sm-4'></div>
-                        <label class='col-sm-0-5 col-form-label'>Login</label>
+                        <label class='col-sm-0-5 col-form-label'><font color='red'>*</font>Login</label>
                         <div class='col-sm-3-5'>
-                            <input type='text' class='form-control' name='login' />
+                            <input type='text' class='form-control' name='login' required/>
                         </div>
                     </div>
                     <br/>
