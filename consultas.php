@@ -11,13 +11,13 @@ $horario = "";
 $observacoes = "";
 
 if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Cancelar') {
-    $agendamento_id = filter_var($_POST['agendamento_id'] ?? '', FILTER_VALIDATE_INT, array('options' => array('min_range' => 1)));
-    if($agendamento_id === false) {
+    $consulta_id = filter_var($_POST['consulta_id'] ?? '', FILTER_VALIDATE_INT, array('options' => array('min_range' => 1)));
+    if($consulta_id === false) {
         $mensagem = "Agendamento inválido.";
     } else {
-        $agendamento_id = (int)$agendamento_id;
-        $sql = "SELECT * FROM agendamento
-                WHERE id = '".$agendamento_id."'
+        $consulta_id = (int)$consulta_id;
+        $sql = "SELECT * FROM consulta
+                WHERE id = '".$consulta_id."'
                 AND situacao = 'Agendado'
                 AND data_agendamento >= CURDATE()";
         $rs = mysqli_query($conexao, $sql);
@@ -27,8 +27,8 @@ if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Cancelar') {
         } elseif(mysqli_num_rows($rs) == 0) {
             $mensagem = "O agendamento não existe, já foi cancelado ou já passou.";
         } else {
-            $sql = "UPDATE agendamento SET situacao = 'Cancelado'
-                    WHERE id = '".$agendamento_id."' AND situacao = 'Agendado'";
+            $sql = "UPDATE consulta SET situacao = 'Cancelado'
+                    WHERE id = '".$consulta_id."' AND situacao = 'Agendado'";
             $rs = mysqli_query($conexao, $sql);
             if($rs && mysqli_affected_rows($conexao) > 0) {
                 $mensagem = "Agendamento cancelado com sucesso.";
@@ -63,7 +63,7 @@ if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Agendar') {
         $observacoes_sql = mysqli_real_escape_string($conexao, $observacoes);
 
         $sql = "SELECT *
-                FROM agendamento
+                FROM consulta
                 WHERE data_agendamento = '".$data_agendamento_sql."'
                     AND horario = '".$horario_sql."'
                     AND situacao = 'Agendado'
@@ -75,11 +75,11 @@ if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Agendar') {
         } elseif(mysqli_num_rows($rs) > 0) {
             $mensagem = "O dentista ou o paciente já possui um agendamento nesse horário.";
         } else {
-            $sql = "INSERT INTO agendamento(paciente_id, usuario_id, data_agendamento, horario, observacoes, situacao)
+            $sql = "INSERT INTO consulta(paciente_id, usuario_id, data_agendamento, horario, observacoes, situacao)
                     VALUES('".$paciente_id."', '".$usuario_id."', '".$data_agendamento_sql."', '".$horario_sql."', '".$observacoes_sql."', 'Agendado')";
             $rs = mysqli_query($conexao, $sql);
             if($rs) {
-                $mensagem = "Agendamento cadastrado com sucesso.";
+                $mensagem = "Consulta cadastrada com sucesso.";
                 $tipo_mensagem = "success";
                 $paciente_id = "";
                 $usuario_id = "";
@@ -87,8 +87,8 @@ if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Agendar') {
                 $horario = "";
                 $observacoes = "";
             } else {
-                error_log("Erro ao cadastrar agendamento: " . mysqli_error($conexao));
-                $mensagem = "Não foi possível cadastrar o agendamento.";
+                error_log("Erro ao cadastrar consulta: " . mysqli_error($conexao));
+                $mensagem = "Não foi possível cadastrar a consulta.";
             }
         }
     }
@@ -123,7 +123,7 @@ if(!$rs_dentistas) {
 
 $sql = "SELECT a.id, a.data_agendamento, a.horario, a.observacoes, a.situacao,
                p.nome AS paciente_nome, p.cpf, u.nome AS dentista_nome
-        FROM agendamento a
+        FROM consulta a
         INNER JOIN paciente p ON p.id = a.paciente_id
         INNER JOIN usuario u ON u.id = a.usuario_id";
 if($filtro_data != '') {
@@ -136,17 +136,17 @@ if($filtro_usuario_id != '') {
     $sql .= " AND a.usuario_id = '".(int)$filtro_usuario_id."'";
 }
 $sql .= " ORDER BY a.data_agendamento, a.horario";
-$rs_agendamentos = mysqli_query($conexao, $sql);
-if(!$rs_agendamentos) {
-    error_log("Erro ao listar agendamentos: " . mysqli_error($conexao));
-    $mensagem = "Não foi possível carregar os agendamentos. Verifique se a tabela agendamento foi criada.";
+$rs_consultas = mysqli_query($conexao, $sql);
+if(!$rs_consultas) {
+    error_log("Erro ao listar consultas: " . mysqli_error($conexao));
+    $mensagem = "Não foi possível carregar as consultas. Verifique se a tabela consulta foi criada.";
 }
 
 echo("  <div class='consultorio-page'>
             <div class='container consultorio-container'>
                 <br/>
                 <center>
-                    <h4>Agenda</h4>
+                    <h4>Consultas</h4>
                 </center>
                 <br/>");
 
@@ -227,7 +227,7 @@ echo("                      </select>
                 <hr/>
                 <br/>
                 <center>
-                    <h5>Agendamentos</h5>
+                    <h5>Consultas</h5>
                 </center>
                 <br/>
                 <form name='formFiltro' method='get'>
@@ -273,26 +273,26 @@ echo("                      </select>
                                 <th></th>
                             </tr>");
 
-if($rs_agendamentos && mysqli_num_rows($rs_agendamentos) == 0) {
+if($rs_consultas && mysqli_num_rows($rs_consultas) == 0) {
     echo("                  <tr>
                                 <td colspan='8' class='alert alert-danger' style='text-align:center'>Nenhum agendamento encontrado</td>
                             </tr>");
 }
 
-if($rs_agendamentos) {
-    while($agendamento = mysqli_fetch_array($rs_agendamentos)) {
+if($rs_consultas) {
+    while($consulta = mysqli_fetch_array($rs_consultas)) {
         echo("                  <tr>
-                                <td>".date('d/m/Y', strtotime($agendamento['data_agendamento']))."</td>
-                                <td>".htmlspecialchars(substr($agendamento['horario'], 0, 5), ENT_QUOTES, 'UTF-8')."</td>
-                                <td>".htmlspecialchars($agendamento['paciente_nome'], ENT_QUOTES, 'UTF-8')."</td>
-                                <td>".htmlspecialchars($agendamento['cpf'], ENT_QUOTES, 'UTF-8')."</td>
-                                <td>".htmlspecialchars($agendamento['dentista_nome'], ENT_QUOTES, 'UTF-8')."</td>
-                                <td>".htmlspecialchars($agendamento['observacoes'], ENT_QUOTES, 'UTF-8')."</td>
-                                <td>".htmlspecialchars($agendamento['situacao'], ENT_QUOTES, 'UTF-8')."</td>
+                                <td>".date('d/m/Y', strtotime($consulta['data_agendamento']))."</td>
+                                <td>".htmlspecialchars(substr($consulta['horario'], 0, 5), ENT_QUOTES, 'UTF-8')."</td>
+                                <td>".htmlspecialchars($consulta['paciente_nome'], ENT_QUOTES, 'UTF-8')."</td>
+                                <td>".htmlspecialchars($consulta['cpf'], ENT_QUOTES, 'UTF-8')."</td>
+                                <td>".htmlspecialchars($consulta['dentista_nome'], ENT_QUOTES, 'UTF-8')."</td>
+                                <td>".htmlspecialchars($consulta['observacoes'], ENT_QUOTES, 'UTF-8')."</td>
+                                <td>".htmlspecialchars($consulta['situacao'], ENT_QUOTES, 'UTF-8')."</td>
                                 <td>");
-        if($agendamento['situacao'] == 'Agendado' && $agendamento['data_agendamento'] >= date('Y-m-d')) {
+        if($consulta['situacao'] == 'Agendado' && $consulta['data_agendamento'] >= date('Y-m-d')) {
             echo("                  <form method='post' onsubmit='return confirm(\"Deseja realmente cancelar este agendamento?\")'>
-                                        <input type='hidden' name='agendamento_id' value='".$agendamento['id']."' />
+                                        <input type='hidden' name='consulta_id' value='".$consulta['id']."' />
                                         <input type='submit' class='btn btn-danger btn-sm' value='Cancelar' name='BtOpc' />
                                     </form>");
         }

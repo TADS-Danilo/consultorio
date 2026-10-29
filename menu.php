@@ -60,7 +60,7 @@ echo("      <nav class='navbar sticky-top navbar-expand-lg navbar-consultorio-az
                                     </div>
                                 </li>
                                 <li class='nav-item'>
-                                    <a class='nav-link' href='agenda.php' >Agenda</a>
+                                    <a class='nav-link' href='consultas.php' >Consultas</a>
                                 </li>
                             </ul>
                             <div class='ms-auto d-flex gap-3'>

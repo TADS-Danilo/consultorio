@@ -38,7 +38,7 @@ CREATE TABLE paciente(
     PRIMARY KEY(id)
 );
 
-CREATE TABLE agendamento(
+CREATE TABLE consulta(
     id INT AUTO_INCREMENT,
     paciente_id INT NOT NULL,
     usuario_id INT NOT NULL,
