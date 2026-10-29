@@ -45,6 +45,9 @@ echo("      <nav class='navbar sticky-top navbar-expand-lg navbar-consultorio-az
                                     <a class='nav-link' href='inicio.php' >Início</a>
                                 </li>
                                 <li class='nav-item'>
+                                    <a class='nav-link' href='perfis.php' >Perfis</a>
+                                </li>
+                                <li class='nav-item'>
                                     <a class='nav-link' href='usuarios.php' >Usuários do sistema</a>
                                 </li>
                                 <li class='nav-item dropdown'>

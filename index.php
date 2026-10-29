@@ -5,7 +5,7 @@ include("funcoes.php");
 if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Entrar') {
     $conexao = abre_conexao();
 
-    $login = $_POST['login'].trim();
+    $login = trim($_POST['login']);
     $senha = md5($_POST['senha']);
 
     $sql = "SELECT * FROM usuario WHERE login = '".$login."' AND senha = '".$senha."'";

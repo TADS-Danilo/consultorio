@@ -62,50 +62,33 @@ if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Agendar') {
         $horario_sql = mysqli_real_escape_string($conexao, $horario);
         $observacoes_sql = mysqli_real_escape_string($conexao, $observacoes);
 
-        $sql = "SELECT * FROM paciente WHERE id = '".$paciente_id."'";
+        $sql = "SELECT *
+                FROM agendamento
+                WHERE data_agendamento = '".$data_agendamento_sql."'
+                    AND horario = '".$horario_sql."'
+                    AND situacao = 'Agendado'
+                    AND (usuario_id = '".$usuario_id."' OR paciente_id = '".$paciente_id."')";
         $rs = mysqli_query($conexao, $sql);
         if(!$rs) {
-            error_log("Erro ao consultar paciente para agendamento: " . mysqli_error($conexao));
-            $mensagem = "Não foi possível validar o paciente selecionado.";
-        } elseif(mysqli_num_rows($rs) == 0) {
-            $mensagem = "O paciente selecionado não foi encontrado.";
+            error_log("Erro ao verificar horário do agendamento: " . mysqli_error($conexao));
+            $mensagem = "Não foi possível verificar a disponibilidade do horário.";
+        } elseif(mysqli_num_rows($rs) > 0) {
+            $mensagem = "O dentista ou o paciente já possui um agendamento nesse horário.";
         } else {
-            $sql = "SELECT * FROM usuario WHERE id = '".$usuario_id."' AND perfil = 'Dentista'";
+            $sql = "INSERT INTO agendamento(paciente_id, usuario_id, data_agendamento, horario, observacoes, situacao)
+                    VALUES('".$paciente_id."', '".$usuario_id."', '".$data_agendamento_sql."', '".$horario_sql."', '".$observacoes_sql."', 'Agendado')";
             $rs = mysqli_query($conexao, $sql);
-            if(!$rs) {
-                error_log("Erro ao consultar dentista para agendamento: " . mysqli_error($conexao));
-                $mensagem = "Não foi possível validar o dentista selecionado.";
-            } elseif(mysqli_num_rows($rs) == 0) {
-                $mensagem = "O dentista selecionado não foi encontrado.";
+            if($rs) {
+                $mensagem = "Agendamento cadastrado com sucesso.";
+                $tipo_mensagem = "success";
+                $paciente_id = "";
+                $usuario_id = "";
+                $data_agendamento = "";
+                $horario = "";
+                $observacoes = "";
             } else {
-                $sql = "SELECT * FROM agendamento
-                        WHERE data_agendamento = '".$data_agendamento_sql."'
-                        AND horario = '".$horario_sql."'
-                        AND situacao = 'Agendado'
-                        AND (usuario_id = '".$usuario_id."' OR paciente_id = '".$paciente_id."')";
-                $rs = mysqli_query($conexao, $sql);
-                if(!$rs) {
-                    error_log("Erro ao verificar horário do agendamento: " . mysqli_error($conexao));
-                    $mensagem = "Não foi possível verificar a disponibilidade do horário.";
-                } elseif(mysqli_num_rows($rs) > 0) {
-                    $mensagem = "O dentista ou o paciente já possui um agendamento nesse horário.";
-                } else {
-                    $sql = "INSERT INTO agendamento(paciente_id, usuario_id, data_agendamento, horario, observacoes, situacao)
-                            VALUES('".$paciente_id."', '".$usuario_id."', '".$data_agendamento_sql."', '".$horario_sql."', '".$observacoes_sql."', 'Agendado')";
-                    $rs = mysqli_query($conexao, $sql);
-                    if($rs) {
-                        $mensagem = "Agendamento cadastrado com sucesso.";
-                        $tipo_mensagem = "success";
-                        $paciente_id = "";
-                        $usuario_id = "";
-                        $data_agendamento = "";
-                        $horario = "";
-                        $observacoes = "";
-                    } else {
-                        error_log("Erro ao cadastrar agendamento: " . mysqli_error($conexao));
-                        $mensagem = "Não foi possível cadastrar o agendamento.";
-                    }
-                }
+                error_log("Erro ao cadastrar agendamento: " . mysqli_error($conexao));
+                $mensagem = "Não foi possível cadastrar o agendamento.";
             }
         }
     }
@@ -131,7 +114,7 @@ if(!$rs_pacientes) {
     $mensagem = "Não foi possível carregar a lista de pacientes.";
 }
 
-$sql = "SELECT * FROM usuario WHERE perfil = 'Dentista' ORDER BY nome";
+$sql = "SELECT * FROM usuario WHERE perfil_id = (SELECT id FROM perfil WHERE nome = 'Dentista') ORDER BY nome";
 $rs_dentistas = mysqli_query($conexao, $sql);
 if(!$rs_dentistas) {
     error_log("Erro ao listar dentistas: " . mysqli_error($conexao));

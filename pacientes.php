@@ -6,13 +6,13 @@ $disabled_alterar_ou_excluir = false;
 $titulo = "Cadastrar paciente";
 
 if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Cadastrar') {
-    $nome = $_POST['nome'].trim();
-    $cpf = $_POST['cpf'].trim();
-    $data_nascimento = $_POST['data_nascimento'].trim();
-    $sexo = $_POST['sexo'].trim();
-    $email = $_POST['email'].trim();
-    $telefone = $_POST['telefone'].trim();
-    $celular = $_POST['celular'].trim();
+    $nome = trim($_POST['nome']);
+    $cpf = trim($_POST['cpf']);
+    $data_nascimento = trim($_POST['data_nascimento']);
+    $sexo = trim($_POST['sexo']);
+    $email = trim($_POST['email']);
+    $telefone = trim($_POST['telefone']);
+    $celular = trim($_POST['celular']);
 
     //verifica se o cpf é válido
     if(cpf_valido($cpf)) {
@@ -45,13 +45,13 @@ if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Cadastrar') {
 }
 
 if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Atualizar') {
-    $nome = $_POST['nome'].trim();
-    $cpf = $_POST['cpf'].trim();
-    $data_nascimento = $_POST['data_nascimento'].trim();
-    $sexo = $_POST['sexo'].trim();
-    $email = $_POST['email'].trim();
-    $telefone = $_POST['telefone'].trim();
-    $celular = $_POST['celular'].trim();
+    $nome = trim($_POST['nome']);
+    $cpf = trim($_POST['cpf']);
+    $data_nascimento = trim($_POST['data_nascimento']);
+    $sexo = trim($_POST['sexo']);
+    $email = trim($_POST['email']);
+    $telefone = trim($_POST['telefone']);
+    $celular = trim($_POST['celular']);
 
     $sql = "UPDATE paciente
             SET nome = '".$nome."', data_nascimento = '".$data_nascimento."', sexo = '".$sexo."',

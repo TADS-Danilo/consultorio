@@ -2,38 +2,6 @@
 include("menu.php");
 
 $conexao = abre_conexao();
-$disabled_alterar_ou_excluir = false;
-$titulo = "Cadastrar paciente";
-
-if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Cadastrar') {
-    $nome = $_POST['nome'].trim();
-    $cpf = $_POST['cpf'].trim();
-    $data_nascimento = $_POST['data_nascimento'].trim();
-    $sexo = $_POST['sexo'].trim();
-    $email = $_POST['email'].trim();
-    $telefone = $_POST['telefone'].trim();
-    $celular = $_POST['celular'].trim();
-
-    //verifica se já existe o paciente
-    $sql = "SELECT * FROM paciente WHERE cpf = '".$cpf."'";
-    $rs = mysqli_query($conexao, $sql);
-    if(mysqli_num_rows($rs) > 0) {
-        echo("<div class='alert alert-danger'>Já existe um paciente cadastrado com este CPF</div>");
-    } else {
-        $sql = "INSERT INTO paciente(nome, cpf, data_nascimento, sexo, email, telefone, celular)
-            VALUES('".$nome."', '".$cpf."', '".$data_nascimento."', '".$sexo."', '".$email."', '".$telefone."', '".$celular."')";
-        $rs = mysqli_query($conexao, $sql);
-        echo("<div class='alert alert-success'>Paciente \"".$nome."\"  cadastrado com sucesso.</div>");
-
-        $nome = "";
-        $cpf = "";
-        $data_nascimento = "";
-        $sexo = "";
-        $email = "";
-        $telefone = "";
-        $celular = "";
-    }
-}
 
 echo("  <div class='consultorio-page'>
             <div class='container consultorio-container'>
@@ -70,9 +38,10 @@ echo("  <div class='consultorio-page'>
                             <input type='submit' class='btn btn-primary' value='Buscar' name='BtOpc' />
                         </div>
                     </div>
-                </form>
+                </form>");
 
-                <div class='form-group row'>
+if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Buscar') {
+    echo("      <div class='form-group row'>
                     <div class='col-sm-12'>
                         <table class='table table-sm table-hover'>
                             <tr class='table-primary'>
@@ -84,16 +53,16 @@ echo("  <div class='consultorio-page'>
                                 <th>Celular</th>
                             </tr>");
 
-$sql = "SELECT * FROM paciente WHERE MONTH(data_nascimento) = ".$_POST['mes']." ORDER BY nome";
-$rs = mysqli_query($conexao, $sql);
-if(mysqli_num_rows($rs) == 0) {
-    echo("                  <tr>
+    $sql = "SELECT * FROM paciente WHERE MONTH(data_nascimento) = ".$_POST['mes']." ORDER BY nome";
+    $rs = mysqli_query($conexao, $sql);
+    if(mysqli_num_rows($rs) == 0) {
+        echo("              <tr>
                                 <td colspan='6' class='alert alert-danger' style='text-align:center'>Nenhum aniversariante neste mês</td>
                             </tr>");
-}
+    }
 
-while($paciente_array = mysqli_fetch_array($rs)) {
-    echo("                  <tr>
+    while($paciente_array = mysqli_fetch_array($rs)) {
+        echo("              <tr>
                                 <td>".$paciente_array['nome']."</td>
                                 <td>".$paciente_array['data_nascimento']."</td>
                                 <td>".$paciente_array['sexo']."</td>
@@ -101,12 +70,13 @@ while($paciente_array = mysqli_fetch_array($rs)) {
                                 <td>".$paciente_array['telefone']."</td>
                                 <td>".$paciente_array['celular']."</td>
                             </tr>");
-}
+    }
 
-echo("                  </table>
+    echo("              </table>
                     </div>
-                </div>
-            </div>
+                </div>");
+}
+echo("      </div>
         </div>
     </body>");
 ?>

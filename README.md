@@ -7,17 +7,24 @@ USE consultorio;
 CREATE USER 'consultorio'@'%' IDENTIFIED BY '123456';
 GRANT SELECT, INSERT, UPDATE, DELETE ON *.* TO 'consultorio'@'%';
 
+CREATE TABLE perfil(
+	id INT AUTO_INCREMENT,
+    nome VARCHAR(20) NOT NULL,
+    PRIMARY KEY(id)
+);
+INSERT INTO perfil(nome) VALUES("Assistente"),("Dentista");
+
 CREATE TABLE usuario(
 	id INT AUTO_INCREMENT,
     nome VARCHAR(250) NOT NULL,
-    perfil VARCHAR(20) NOT NULL,
+    perfil_id INT NOT NULL,
     email VARCHAR(250) NOT NULL,
     login VARCHAR(20) NOT NULL,
     senha VARCHAR(250) NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    FOREIGN KEY(perfil_id) REFERENCES perfil(id)
 );
-
-INSERT INTO usuario(nome, perfil, email, login, senha) VALUES('Dentista 1','Dentista','dentista1@consultorio.com.br','dentista1','e10adc3949ba59abbe56e057f20f883e');
+INSERT INTO usuario(nome, perfil_id, email, login, senha) VALUES('Dentista 1',1,'dentista1@consultorio.com.br','dentista1','e10adc3949ba59abbe56e057f20f883e');
 
 CREATE TABLE paciente(
 	id INT AUTO_INCREMENT,
