@@ -13,7 +13,7 @@ $titulo = "Cadastrar usuário";
 
 if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Cadastrar') {
     $nome = trim($_POST['nome']);
-    $perfil = $_POST['perfil'];
+    $perfil_id = $_POST['perfil_id'];
     $login = trim($_POST['login']);
     $email = trim($_POST['email']);
     $senha = md5('123456');
@@ -24,9 +24,14 @@ if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Cadastrar') {
     if(mysqli_num_rows($rs) > 0) {
         echo("<div class='alert alert-danger'>O login \"".$login."\" já está cadastrado no sistema</div>");
     } else {
-        $sql = "INSERT INTO usuario(nome, perfil_id, email, login, senha) VALUES('".$nome."', '".$perfil."', '".$email."', '".$login."', '".$senha."')";
+        $sql = "INSERT INTO usuario(nome, perfil_id, email, login, senha) VALUES('".$nome."', '".$perfil_id."', '".$email."', '".$login."', '".$senha."')";
         $rs = mysqli_query($conexao, $sql);
         echo("<div class='alert alert-success'>Usuário cadastrado com sucesso com o login \"".$login."\" e senha \"123456\" que deve alterar no primeiro acesso.</div>");
+
+        $nome = "";
+        $perfil_id = 0;
+        $login = "";
+        $email = "";
     }
 }
 

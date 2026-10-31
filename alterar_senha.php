@@ -17,6 +17,8 @@ if(isset($_POST['BtOpc']) && $_POST['BtOpc'] == 'Alterar') {
             $sql = "UPDATE usuario SET senha = '".$nova_senha."' WHERE login = '".$login."' AND id = '".$linha['id']."'";
             $rs = mysqli_query($conexao, $sql);
             echo("<div class='alert alert-success'>Senha alterada com sucesso</div>");
+        } else {
+            echo("<div class='alert alert-danger'>\"Senha atual\" inválida</div>");
         }
     } else {
         echo("<div class='alert alert-danger'>\"Nova senha\" e \"Confirmar nova senha\" não são iguais</div>");
